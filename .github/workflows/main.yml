@@ -18,14 +18,18 @@ jobs:
     #   with:
     #     node-version: '20'
 
+    - name: Get current branch
+      id: vars
+      run: echo "::set-output name=branch::$(git rev-parse --abbrev-ref HEAD)"
+
     - name: Update File Content
       env:
         FILE_PATH: ${{ github.event.client_payload.file_path }}
         FILE_CONTENT: ${{ toJson(github.event.client_payload.file_content) }}
       run: |
-        echo "${{ env.FILE_CONTENT }}" > "${{ env.FILE_PATH }}"
+        echo '${{ env.FILE_CONTENT }}' > '${{ env.FILE_PATH }}'
         git config --global user.name "GitHub Actions"
         git config --global user.email "action@github.com"
         git add .
         git commit -m "Update ${{ env.FILE_PATH }} via GitHub Actions"
-        git push origin ${{ github.event.ref }}
+        git push origin ${{ steps.vars.outputs.branch }}
