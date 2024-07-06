@@ -1,8 +1,8 @@
 name: Update File Workflow
 
 on:
-  repository_dispatch:  # 假设你通过GitHub API触发一个repository_dispatch事件
-    types: [update_file]  # 自定义事件类型
+  repository_dispatch:
+    types: [update_file]
 
 jobs:
   update-file:
@@ -11,14 +11,21 @@ jobs:
     - name: Check out repository
       uses: actions/checkout@v3
 
+    # 添加此步骤以设置Node.js环境，虽然本例中可能并不需要执行Node.js代码，但这展示了如何响应Node.js版本警告
+    # 请根据实际需求决定是否添加此步骤
+    # - name: Setup Node.js
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: '20'
+
     - name: Update File Content
       env:
-        FILE_PATH: ${{ github.event.client_payload.file_path }}  # 从触发事件中获取文件路径
-        FILE_CONTENT: ${{ github.event.client_payload.file_content }}  # 从触发事件中获取文件内容
+        FILE_PATH: ${{ github.event.client_payload.file_path }}
+        FILE_CONTENT: ${{ github.event.client_payload.file_content }}
       run: |
-        echo "$FILE_CONTENT" > "$FILE_PATH"
+        echo "${{ env.FILE_CONTENT }}" > "${{ env.FILE_PATH }}"
         git config --global user.name "GitHub Actions"
         git config --global user.email "action@github.com"
         git add .
-        git commit -m "Update $FILE_PATH via GitHub Actions"
-        git push origin ${{ github.ref }}
+        git commit -m "Update ${{ env.FILE_PATH }} via GitHub Actions"
+        git push origin ${{ github.event.ref }}
