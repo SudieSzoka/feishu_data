@@ -21,7 +21,7 @@ jobs:
     - name: Update File Content
       env:
         FILE_PATH: ${{ github.event.client_payload.file_path }}
-        FILE_CONTENT: ${{ github.event.client_payload.file_content }}
+        FILE_CONTENT: ${{ toJson(github.event.client_payload.file_content) }}
       run: |
         echo "${{ env.FILE_CONTENT }}" > "${{ env.FILE_PATH }}"
         git config --global user.name "GitHub Actions"
