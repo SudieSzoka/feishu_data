@@ -1,0 +1,14 @@
+name: Rewrite File
+on: [push]
+jobs:
+  rewrite:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Rewrite file
+      run: |
+        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d '{"message": "Rewrite file","content": "bXlwZGF0ZW1zIEVuY29kaW5n"}' \
+          -H "Content-Type: application/json" \
+          https://api.github.com/repos/${{ github.repository }}/contents/path/to/file
