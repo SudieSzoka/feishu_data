@@ -1,14 +1,24 @@
-name: Rewrite File
-on: [push]
+name: Update File Workflow
+
+on:
+  repository_dispatch:  # 假设你通过GitHub API触发一个repository_dispatch事件
+    types: [update_file]  # 自定义事件类型
+
 jobs:
-  rewrite:
+  update-file:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Rewrite file
+    - name: Check out repository
+      uses: actions/checkout@v3
+
+    - name: Update File Content
+      env:
+        FILE_PATH: ${{ github.event.client_payload.file_path }}  # 从触发事件中获取文件路径
+        FILE_CONTENT: ${{ github.event.client_payload.file_content }}  # 从触发事件中获取文件内容
       run: |
-        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -d '{"message": "Rewrite file","content": "bXlwZGF0ZW1zIEVuY29kaW5n"}' \
-          -H "Content-Type: application/json" \
-          https://api.github.com/repos/${{ github.repository }}/contents/path/to/file
+        echo "$FILE_CONTENT" > "$FILE_PATH"
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "action@github.com"
+        git add .
+        git commit -m "Update $FILE_PATH via GitHub Actions"
+        git push origin ${{ github.ref }}
