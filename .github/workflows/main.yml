@@ -23,23 +23,21 @@ jobs:
         echo '${{ env.FILE_CONTENT }}' > '${{ env.FILE_PATH }}'
         git config --global user.name "GitHub Actions"
         git config --global user.email "action@github.com"
-        git add .
 
-    - name: Remove BOM from updated file
-      if: contains(env.FILE_PATH, 'data') # 可选条件判断，确保只处理data目录下的文件
+    - name: Remove BOM from file name if present
+      if: contains(env.FILE_PATH, '<0xfeff>')
       run: |
-        # 检查并移除指定文件的BOM
-        if [[ $(file "$FILE_PATH") == *UTF-8* ]]; then
-          echo "File is UTF-8 encoded, checking for BOM..."
-          if head -c 3 "$FILE_PATH" | hexdump -C | grep -q '^00 00 fe'; then
-            echo "BOM found, removing..."
-            tail -c +4 "$FILE_PATH" > "${FILE_PATH}.tmp" && mv "${FILE_PATH}.tmp" "$FILE_PATH"
-          fi
-        else
-          echo "File is not UTF-8 encoded, skipping BOM removal."
+        original_file="$FILE_PATH"
+        cleaned_file=$(echo "$original_file" | sed 's/<0xfeff>//')
+        if [ "$original_file" != "$cleaned_file" ]; then
+          mv "$original_file" "$cleaned_file"
+          echo "File renamed from $original_file to $cleaned_file due to BOM removal."
+          env:
+            FILE_PATH: $cleaned_file
         fi
 
     - name: Commit and Push Changes
       run: |
-        git commit -m "Update file and remove BOM via GitHub Actions"
+        git add .
+        git commit -m "Update ${{ env.FILE_PATH }} via GitHub Actions"
         git push origin ${{ steps.vars.outputs.branch }}
