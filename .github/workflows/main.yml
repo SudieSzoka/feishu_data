@@ -24,20 +24,29 @@ jobs:
         git config --global user.name "GitHub Actions"
         git config --global user.email "action@github.com"
 
-    - name: Remove BOM from file name if present
-      if: contains(env.FILE_PATH, '<0xfeff>')
+    # 检查并移除文件内容的BOM
+    - name: Remove BOM from file content
+      if: ${{ contains(github.event.client_payload.file_path, '.txt') || contains(github.event.client_payload.file_path, '.csv') }} # 示例检查文本或CSV文件
       run: |
-        original_file="$FILE_PATH"
-        cleaned_file=$(echo "$original_file" | sed 's/<0xfeff>//')
-        if [ "$original_file" != "$cleaned_file" ]; then
-          mv "$original_file" "$cleaned_file"
-          echo "File renamed from $original_file to $cleaned_file due to BOM removal."
-          env:
-            FILE_PATH: $cleaned_file
-        fi
+        file_with_bom="$FILE_PATH"
+        file_without_bom="${file_with_bom%.txt}_no_bom.txt" # 示例修改扩展名来创建新文件名
+        sed -i 's/\xEF\xBB\xBF//' "$file_with_bom" # 假设文件是UTF-8编码，移除BOM
+        echo "BOM removed from $file_with_bom, new file created as $file_without_bom"
+        echo "::set-output name=cleaned_file_path::$file_without_bom" >> $GITHUB_OUTPUT # 输出新文件路径到GITHUB_OUTPUT
 
     - name: Commit and Push Changes
+      env:
+        COMMIT_MSG_FILE: commit_message.txt
       run: |
-        git add .
-        git commit -m "Update ${{ env.FILE_PATH }} via GitHub Actions"
+        # 使用新文件路径（如果有BOM移除步骤）
+        cleaned_file_path=$(cat $GITHUB_STEP_SUMMARY | grep -oP 'cleaned_file_path::\K[^ ]+')
+        [[ -n "$cleaned_file_path" ]] && FILE_PATH=$cleaned_file_path
+        
+        git add "${FILE_PATH}"
+        
+        # 准备提交消息
+        echo "Update $FILE_PATH via GitHub Actions" > $COMMIT_MSG_FILE
+        git add $COMMIT_MSG_FILE
+        
+        git commit -F $COMMIT_MSG_FILE
         git push origin ${{ steps.vars.outputs.branch }}
