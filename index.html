@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>即刻历史粉丝</title>
+<script src="app.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+<style>
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  .modal, .content {
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 640px;
+    box-sizing: border-box;
+    transition: box-shadow 0.3s ease;
+  }
+  .modal input[type="text"],
+  .content input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+  .modal button,
+  .content button {
+    padding: 12px 24px;
+    background-color: #0056b3;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    outline: none;
+  }
+  .modal button:hover,
+  .content button:hover {
+    background-color: #003d82;
+  }
+  #chartContainer {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  #chartContainer canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+  .history-container {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+  }
+  h2, h3 {
+    margin-top: 0;
+    color: #0056b3;
+  }
+  .content {
+    display: block;
+  }
+  .modal {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div id="activationModal" class="modal">
+  <h2>输入激活码</h2>
+  <input type="text" id="activationCode" placeholder="请输入激活码" required>
+  <button onclick="submitActivationCode()">提交</button>
+</div>
+
+
+
+<div id="mainContent" class="content">
+  <h2>即刻粉丝图表</h2>
+  <div id="historyContainer" class="history-container">
+    <h3>搜索历史</h3>
+    <div id="history"></div>
+  </div>
+  <input type="text" id="queryInput" placeholder="请输入查询内容" required>
+  <button onclick="createQuery()">查询</button>
+  <div id="chartContainer">
+    <canvas id="chartCanvas"></canvas>
+  </div>
+</div>
+
+</body>
+</html>
