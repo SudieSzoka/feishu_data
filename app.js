@@ -120,25 +120,54 @@ function displayChart(labels, data, chartName) {
     }
   });
 }
+
+function getDefaultHistory() {
+  // 返回一个默认历史记录列表
+  return [
+    { query: '2DB6A5B6-295D-41D9-A59B-97FA93CC6F12', name: '35岁危机应对小组' },
+    { query: 'e2aade8d-c754-4640-829a-4101220fd658', name: '技术老baby' },
+    { query: '47da9f32-b1c7-4c39-ab9f-d91fda7c6997', name: 'Clara998泽佳' },
+    { query: 'a2d6acc1-626f-4d15-a22a-849e88a4c9f0', name: '哥飞' },
+    { query: '9653043B-54DD-4AE5-8DC7-C7FD0FA0BF87', name: '海辛Hyacinth' },
+    // 更多默认历史记录项...
+  ];
+}
+
+function loadHistory() {
+  // 尝试从localStorage中获取历史记录
+  let history = JSON.parse(localStorage.getItem('history'));
+  // 如果localStorage中没有历史记录，则使用默认列表
+  if (!history) {
+    history = getDefaultHistory();
+    localStorage.setItem('history', JSON.stringify(history)); // 将默认历史记录保存到localStorage
+  }
+  return history;
+}
 function updateHistory(query, name) {
-  let history = JSON.parse(localStorage.getItem('history')) || [];
-  // 创建一个包含 query 和 name 的对象
+  let history = loadHistory(); // 获取当前历史记录，包括可能已经存在的默认列表
   let historyItem = { query: query, name: name };
-  if (history.some(item => item.query === query)) {
-    return; // Query is already in history
+  // 查找是否存在相同query的历史记录项
+  let existingIndex = history.findIndex(item => item.query === query);
+  if (existingIndex > -1) {
+    // 如果存在，则移除旧的记录
+    history.splice(existingIndex, 1);
   }
-  history.unshift(historyItem); // Add the new history item to the beginning of the history array
+  // 将新的历史记录项添加到数组的开头
+  history.unshift(historyItem);
   if (history.length > 5) {
-    history.pop(); // Remove the oldest history item if history exceeds 5 items
+    // 如果历史记录项超过5个，移除最旧的记录项
+    history.pop();
   }
+  // 更新localStorage中的历史记录
   localStorage.setItem('history', JSON.stringify(history));
+  // 显示更新后的历史记录
   displayHistory();
 }
 
 function displayHistory() {
-  let history = JSON.parse(localStorage.getItem('history')) || [];
+  let history = loadHistory(); // 使用 loadHistory 函数来获取历史记录
   let historyElement = document.getElementById('history');
-  historyElement.innerHTML = ''; // Clear previous history
+  historyElement.innerHTML = ''; // 清除先前的历史记录
 
   // 创建一个容器div，用于横排显示历史记录
   let historyContainer = document.createElement('div');
