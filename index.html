@@ -177,7 +177,7 @@
 
         async function fetchData(user_key = null) {
             const key = user_key || keyInput.value;
-            const url = `http://39.99.250.78:5222/lookup?key=${key}`;
+            const url = `https://39.99.250.78:5222/lookup?key=${key}`;
             try {
                 const response = await fetch(url);
                 if (response.ok) {
