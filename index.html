@@ -205,7 +205,7 @@
                 chartContainer.innerHTML = '';
                 // 创建一个新的段落元素来显示消息
                 const message = document.createElement('p');
-                message.textContent = `今天粉丝数据为：${data.fansData[0]}`;
+                message.textContent = `${data.user_name} 今天粉丝数据为：${data.fansData[0]}`;
                 message.style.textAlign = 'center'; // 居中显示
                 chartContainer.appendChild(message); // 将消息添加到图表容器中
             } else {
