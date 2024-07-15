@@ -140,6 +140,14 @@
             <p>刷新时间: <span id="refreshTime"></span></p>
             <p>上次访问时间: <span id="lastVistTime"></span></p>
         </div>
+        <div id="topHistoryContainer">
+            <h3>历史搜索最高</h3>
+            <ul id="topHistoryList"></ul>
+        </div>
+        <div id="topYesterdayContainer">
+            <h3>昨日搜索最高</h3>
+            <ul id="topYesterdayList"></ul>
+        </div>
     </div>
 
     <script>
@@ -187,6 +195,7 @@
                     const data = await response.json();
                     updateHistory(key, data.user_name); // 存储key和name
                     displayData(data);
+                    displayTopData(data); // 显示最高搜索数据
                 } else {
                     alert('请求失败，请检查Key是否正确');
                 }
@@ -196,6 +205,32 @@
             }
         }
 
+        function displayTopData(data) {
+            const topHistoryList = document.getElementById('topHistoryList');
+            const topYesterdayList = document.getElementById('topYesterdayList');
+
+            // 清空列表
+            topHistoryList.innerHTML = '';
+            topYesterdayList.innerHTML = '';
+
+            // 显示历史搜索最高的内容
+            Object.keys(data.top_history).forEach(key => {
+                const item = data.top_history[key];
+                const li = document.createElement('li');
+                li.textContent = item.name; // 显示name
+                li.onclick = () => fetchData(key); // 点击时传递key
+                topHistoryList.appendChild(li);
+            });
+
+            // 显示昨日搜索最高的内容
+            Object.keys(data.top_yesterday).forEach(key => {
+                const item = data.top_yesterday[key];
+                const li = document.createElement('li');
+                li.textContent = item.name; // 显示name
+                li.onclick = () => fetchData(key); // 点击时传递key
+                topYesterdayList.appendChild(li);
+            });
+        }
         function displayData(data) {
             const chartContainer = document.getElementById('chartContainer');
             // 检查数据中的日期数组长度是否为1，即只有一条数据
@@ -260,6 +295,8 @@
 
         // 确保在页面加载时也渲染历史记录
         renderHistory();
+        // 确保在页面加载时也调用 fetchData 来获取数据
+        document.addEventListener('DOMContentLoaded', fetchData);
     </script>
 </body>
 </html>
