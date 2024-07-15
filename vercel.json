@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/lookup",  // 直接匹配 /lookup 路径
-      "destination": "http://39.99.250.78:5222/lookup"  // 代理到你的API服务
+      "source": "/lookup",
+      "destination": "http://39.99.250.78:5222/lookup"
     }
   ]
 }
