@@ -364,7 +364,12 @@
                         options: {
                             scales: {
                                 y: {
-                                    beginAtZero: false
+                                    beginAtZero: false,
+                                    ticks: {
+                                        // 使用callback函数确保标签是整数
+                                        callback: function(value, index, values) {
+                                            return value.toLocaleString(undefined, {maximumFractionDigits: 0});
+                                        }
                                 }
                             }
                         }
