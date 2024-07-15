@@ -78,7 +78,76 @@
         #history ul li:hover {
             background-color: #e6e6e6; /* 鼠标悬停时改变背景色 */
         }
+        /* top历史记录样式 */
+        #topHistoryContainer {
+            background-color: #ffffff; /* 明亮背景色 */
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 添加阴影 */
+            margin-bottom: 20px; /* 添加底部间距 */
+            overflow-x: auto; /* 如果历史记录过多，允许横向滚动 */
+        }
 
+        #topHistoryContainer h3 {
+            border-bottom: 2px solid #e6e6e6; /* 添加标题底部边框 */
+            padding-bottom: 10px;
+        }
+
+        #topHistoryContainer ul {
+            display: flex; /* 使用flex布局使列表横向展示 */
+            list-style: none; /* 移除默认的列表样式 */
+            padding: 0; /* 移除默认的内边距 */
+            margin: 10px 0 0 0; /* 添加上边距 */
+        }
+
+        #topHistoryContainer ul li {
+            flex: 0 0 auto; /* 防止列表项伸缩 */
+            background-color: #f4f4f4; /* 微调列表项背景颜色 */
+            margin-right: 10px; /* 添加右外边距 */
+            padding: 10px; /* 添加内边距 */
+            border-radius: 4px; /* 添加圆角 */
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out; /* 平滑过渡背景色 */
+        }
+
+        #topHistoryContainer ul li:hover {
+            background-color: #e6e6e6; /* 鼠标悬停时改变背景色 */
+        }
+        /* top昨日记录样式 */
+        #topYesterdayContainer {
+            background-color: #ffffff; /* 明亮背景色 */
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 添加阴影 */
+            margin-bottom: 20px; /* 添加底部间距 */
+            overflow-x: auto; /* 如果历史记录过多，允许横向滚动 */
+        }
+
+        #topYesterdayContainer h3 {
+            border-bottom: 2px solid #e6e6e6; /* 添加标题底部边框 */
+            padding-bottom: 10px;
+        }
+
+        #topYesterdayContainer ul {
+            display: flex; /* 使用flex布局使列表横向展示 */
+            list-style: none; /* 移除默认的列表样式 */
+            padding: 0; /* 移除默认的内边距 */
+            margin: 10px 0 0 0; /* 添加上边距 */
+        }
+
+        #topYesterdayContainer ul li {
+            flex: 0 0 auto; /* 防止列表项伸缩 */
+            background-color: #f4f4f4; /* 微调列表项背景颜色 */
+            margin-right: 10px; /* 添加右外边距 */
+            padding: 10px; /* 添加内边距 */
+            border-radius: 4px; /* 添加圆角 */
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out; /* 平滑过渡背景色 */
+        }
+
+        #topYesterdayContainer ul li:hover {
+            background-color: #e6e6e6; /* 鼠标悬停时改变背景色 */
+        }
         /* 图表容器样式 */
         #chartContainer {
             display: flex; /* 将容器设置为flex布局 */
