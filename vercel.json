@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/lookup",
-      "destination": "http://39.99.250.78:5222/lookup"
-    }
-  ]
-}
