@@ -210,6 +210,7 @@
             try {
                 const response = await fetch(url);
                 if (response.ok) {
+                    const data = await response.json(); // 解析 JSON 数据
                     displayTopData(data); // 显示最高搜索数据
                 } else {
                     alert('获取历史数据失败！');
