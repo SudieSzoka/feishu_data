@@ -1,106 +1,258 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>即刻历史粉丝</title>
-<script src="app.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-<style>
-  body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-    color: #333;
-  }
-  .modal, .content {
-    padding: 40px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 640px;
-    box-sizing: border-box;
-    transition: box-shadow 0.3s ease;
-  }
-  .modal input[type="text"],
-  .content input[type="text"] {
-    width: 100%;
-    padding: 12px 20px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-sizing: border-box;
-  }
-  .modal button,
-  .content button {
-    padding: 12px 24px;
-    background-color: #0056b3;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    outline: none;
-  }
-  .modal button:hover,
-  .content button:hover {
-    background-color: #003d82;
-  }
-  #chartContainer {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  #chartContainer canvas {
-    width: 100% !important;
-    height: auto !important;
-  }
-  .history-container {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 8px;
-  }
-  h2, h3 {
-    margin-top: 0;
-    color: #0056b3;
-  }
-  .content {
-    display: block;
-  }
-  .modal {
-    display: none;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>即刻历史粉丝数查询</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 容器样式 */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff; /* 更明亮背景色 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 添加轻微阴影 */
+            border-radius: 8px; /* 添加圆角 */
+        }
+
+        /* 输入组样式 */
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #e6e6e6; /* 添加底部边框以区分 */
+        }
+
+        /* 信息容器样式 */
+        #infoContainer {
+            background-color: #f9f9f9; /* 微调背景颜色 */
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 添加更浅的阴影 */
+            margin-bottom: 20px; /* 添加底部间距 */
+        }
+
+        /* 历史记录样式 */
+        #history {
+            background-color: #ffffff; /* 明亮背景色 */
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 添加阴影 */
+            margin-bottom: 20px; /* 添加底部间距 */
+            overflow-x: auto; /* 如果历史记录过多，允许横向滚动 */
+        }
+
+        #history h3 {
+            border-bottom: 2px solid #e6e6e6; /* 添加标题底部边框 */
+            padding-bottom: 10px;
+        }
+
+        #history ul {
+            display: flex; /* 使用flex布局使列表横向展示 */
+            list-style: none; /* 移除默认的列表样式 */
+            padding: 0; /* 移除默认的内边距 */
+            margin: 10px 0 0 0; /* 添加上边距 */
+        }
+
+        #history ul li {
+            flex: 0 0 auto; /* 防止列表项伸缩 */
+            background-color: #f4f4f4; /* 微调列表项背景颜色 */
+            margin-right: 10px; /* 添加右外边距 */
+            padding: 10px; /* 添加内边距 */
+            border-radius: 4px; /* 添加圆角 */
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out; /* 平滑过渡背景色 */
+        }
+
+        #history ul li:hover {
+            background-color: #e6e6e6; /* 鼠标悬停时改变背景色 */
+        }
+
+        /* 图表容器样式 */
+        #chartContainer {
+            display: flex; /* 将容器设置为flex布局 */
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            background-color: #ffffff; /* 明亮背景色 */
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 添加阴影 */
+            margin-bottom: 20px; /* 添加底部间距 */
+            width: 50%; /* 容器宽度设置为100% */
+            height: 400px; /* 指定一个高度，确保图表有足够的空间显示 */
+        }
+
+        /* 修改canvas样式，如果需要 */
+        #chartContainer canvas {
+            width: 100% !important; /* 强制canvas占满容器宽度 */
+            height: auto !important; /* 高度自适应 */
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .input-group {
+                flex-direction: column;
+                border-bottom: none; /* 移除边框，因为已经改为垂直布局 */
+            }
+
+            .input-group label,
+            .input-group input[type="text"],
+            .input-group button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            #chartContainer {
+                width: 100%; /* 在小屏幕上宽度恢复为100% */
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div id="history">
+            <h3>历史记录</h3>
+            <ul id="historyList"></ul>
+        </div>
+        <div class="input-group">
+            <label for="keyInput">输入查询Key:</label>
+            <input type="text" id="keyInput" placeholder="请输入查询Key">
+            <button onclick="fetchData()">查询</button>
+        </div>
+        <div id="chartContainer">
+            <canvas id="dataChart"></canvas>
+        </div>
+        <div id="infoContainer">
+            <p>访问次数: <span id="visitTime"></span></p>
+            <p>刷新时间: <span id="refreshTime"></span></p>
+            <p>上次访问时间: <span id="lastVistTime"></span></p>
+        </div>
+    </div>
 
-<div id="activationModal" class="modal">
-  <h2>输入激活码</h2>
-  <input type="text" id="activationCode" placeholder="请输入激活码" required>
-  <button onclick="submitActivationCode()">提交</button>
-</div>
+    <script>
+        const keyInput = document.getElementById('keyInput');
+        const chartContainer = document.getElementById('chartContainer');
+        const visitTimeElement = document.getElementById('visitTime');
+        const refreshTimeElement = document.getElementById('refreshTime');
+        const lastVistTimeElement = document.getElementById('lastVistTime');
+        const historyList = document.getElementById('historyList');
+        let history = JSON.parse(localStorage.getItem('history')) || [];
 
+        function updateHistory(key, name) {
+            const historyItem = { key, name };
+            // 检查历史记录中是否已存在该key
+            const exists = history.some(item => item.key === key);
+            if (!exists) {
+                // 如果历史记录超过5条，删除最旧的一条
+                if (history.length >= 5) {
+                    history.pop();
+                }
+                history.unshift(historyItem); // 添加新的历史记录到最前面
+                localStorage.setItem('history', JSON.stringify(history));
+            }
+            renderHistory();
+        }
 
+        function renderHistory() {
+            historyList.innerHTML = '';
+            history.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item.name; // 显示name
+                li.onclick = () => fetchData(item.key); // 传递key
+                historyList.appendChild(li);
+            });
+        }
 
-<div id="mainContent" class="content">
-  <h2>即刻粉丝图表</h2>
-  <div id="historyContainer" class="history-container">
-    <h3>搜索历史</h3>
-    <div id="history"></div>
-  </div>
-  <input type="text" id="queryInput" placeholder="请输入查询内容" required>
-  <button onclick="createQuery()">查询</button>
-  <div id="chartContainer">
-    <canvas id="chartCanvas"></canvas>
-  </div>
-</div>
+        let myChart = null; // 声明一个用于保存Chart实例的变量
 
+        async function fetchData(user_key = null) {
+            const key = user_key || keyInput.value;
+            const url = `http://39.99.250.78:5222/lookup?key=${key}`;
+            try {
+                const response = await fetch(url);
+                if (response.ok) {
+                    const data = await response.json();
+                    updateHistory(key, data.user_name); // 存储key和name
+                    displayData(data);
+                } else {
+                    alert('请求失败，请检查Key是否正确');
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                alert('请求失败，请检查网络连接');
+            }
+        }
+
+        function displayData(data) {
+            // 检查数据中的日期数组长度是否为1，即只有一条数据
+            if (data.date.length === 1) {
+                // 如果存在先前的Chart实例，则销毁它
+                if (myChart) {
+                    myChart.destroy();
+                    myChart = null;
+                }
+                // 清空图表容器
+                chartContainer.innerHTML = '';
+                // 创建一个新的段落元素来显示消息
+                const message = document.createElement('p');
+                message.textContent = `今天粉丝数据为：${data.fansData[0]}`;
+                message.style.textAlign = 'center'; // 居中显示
+                chartContainer.appendChild(message); // 将消息添加到图表容器中
+            } else {
+                const canvasElement = document.getElementById('dataChart');
+                if (canvasElement) { // 确保canvas元素存在
+                    const ctx = canvasElement.getContext('2d');
+                    if (ctx) { // 确保能够获取到canvas的2d上下文
+                        // 如果存在先前的Chart实例，则销毁它
+                        if (myChart) {
+                            myChart.destroy();
+                        }
+                        // 创建一个新的Chart实例
+                        myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: data.date,
+                                datasets: [{
+                                    label: data.user_name,
+                                    data: data.fansData,
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        console.error('无法获取canvas的2d上下文');
+                    }
+                } else {
+                    console.error('无法找到canvas元素');
+                }
+            }
+
+            // 更新页面上的其他信息
+            visitTimeElement.textContent = data.visitTime;
+            refreshTimeElement.textContent = data.refreshTime;
+            lastVistTimeElement.textContent = data.lastVistTime;
+        }
+
+        // 确保在页面加载时也渲染历史记录
+        renderHistory();
+    </script>
 </body>
 </html>
