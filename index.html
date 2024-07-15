@@ -195,7 +195,7 @@
                     const data = await response.json();
                     updateHistory(key, data.user_name); // 存储key和name
                     displayData(data);
-                    displayTopData(data); // 显示最高搜索数据
+                    // displayTopData(data); // 显示最高搜索数据
                 } else {
                     alert('请求失败，请检查Key是否正确');
                 }
@@ -205,6 +205,20 @@
             }
         }
 
+        async function fetchDataTop() {
+            const url = `/api/top`;
+            try {
+                const response = await fetch(url);
+                if (response.ok) {
+                    displayTopData(data); // 显示最高搜索数据
+                } else {
+                    alert('获取历史数据失败！');
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                alert('请求失败，请检查网络连接');
+            }
+        }
         function displayTopData(data) {
             const topHistoryList = document.getElementById('topHistoryList');
             const topYesterdayList = document.getElementById('topYesterdayList');
@@ -296,7 +310,7 @@
         // 确保在页面加载时也渲染历史记录
         renderHistory();
         // 确保在页面加载时也调用 fetchData 来获取数据
-        document.addEventListener('DOMContentLoaded', fetchData);
+        document.addEventListener('DOMContentLoaded', fetchDataTop);
     </script>
 </body>
 </html>
