@@ -10,10 +10,11 @@
         /* 全局样式 */
         body {
         font-family: 'Roboto', Arial, sans-serif;
-        background-color: #f4f4f4;
+        background-color: #f0f2f5;
         color: #333;
         margin: 0;
         padding: 0;
+        line-height: 1.6;
         }
 
         /* 容器样式 */
@@ -21,137 +22,106 @@
         width: 90%;
         max-width: 1200px;
         margin: 20px auto;
-        padding: 20px;
+        padding: 30px;
         background-color: #ffffff;
-        border-radius: 8px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        }
+
+        .container:hover {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
 
         /* 输入组样式 */
         .input-group {
-        margin-bottom: 20px;
+        margin-bottom: 25px;
         display: flex;
         align-items: center;
-        border-bottom: 2px solid #e6e6e6;
+        background: linear-gradient(145deg, #e6e6e6, #ffffff);
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group input[type="text"] {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 10px;
+        font-size: 16px;
+        color: #333;
+        }
+
+        .input-group button {
+        background: linear-gradient(145deg, #3498db, #2980b9);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        }
+
+        .input-group button:hover {
+        background: linear-gradient(145deg, #2980b9, #3498db);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
         }
 
         /* 信息容器样式 */
         #infoContainer {
-        background-color: #f9f9f9;
-        padding: 5px;
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        margin-top: 0;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        margin-top: 20px;
+        transition: all 0.3s ease;
+        }
+
+        #infoContainer:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
         /* 历史记录样式 */
-        #history {
+        #history, #topHistoryContainer, #topYesterdayContainer {
         background-color: #ffffff;
-        padding: 15px;
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 25px;
         overflow-x: auto;
         }
 
-        #history h3 {
+        #history h3, #topHistoryContainer h3, #topYesterdayContainer h3 {
         border-bottom: 2px solid #e6e6e6;
         padding-bottom: 10px;
         margin-top: 0;
+        color: #2c3e50;
         }
 
-        #history ul {
+        #history ul, #topHistoryContainer ul, #topYesterdayContainer ul {
         display: flex;
         list-style: none;
         padding: 0;
-        margin: 10px 0 0 0;
+        margin: 15px 0 0 0;
         }
 
-        #history ul li {
+        #history ul li, #topHistoryContainer ul li, #topYesterdayContainer ul li {
         flex: 0 0 auto;
-        background-color: #f4f4f4;
-        margin-right: 10px;
-        padding: 10px;
-        border-radius: 4px;
+        background: linear-gradient(145deg, #f0f0f0, #e6e6e6);
+        margin-right: 15px;
+        padding: 12px 18px;
+        border-radius: 25px;
         cursor: pointer;
-        transition: background-color 0.3s ease-in-out;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        #history ul li:hover {
-        background-color: #e6e6e6;
-        }
-
-        /* top历史记录样式 */
-        #topHistoryContainer {
-        background-color: #ffffff;
-        padding: 15px;
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-        overflow-x: auto;
-        }
-
-        #topHistoryContainer h3 {
-        border-bottom: 2px solid #e6e6e6;
-        padding-bottom: 10px;
-        margin-top: 0;
-        }
-
-        #topHistoryContainer ul {
-        display: flex;
-        list-style: none;
-        padding: 0;
-        margin: 10px 0 0 0;
-        }
-
-        #topHistoryContainer ul li {
-        flex: 0 0 auto;
-        background-color: #f4f4f4;
-        margin-right: 10px;
-        padding: 10px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s ease-in-out;
-        }
-
-        #topHistoryContainer ul li:hover {
-        background-color: #e6e6e6;
-        }
-
-        /* top昨日记录样式 */
-        #topYesterdayContainer {
-        background-color: #ffffff;
-        padding: 15px;
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-        overflow-x: auto;
-        }
-
-        #topYesterdayContainer h3 {
-        border-bottom: 2px solid #e6e6e6;
-        padding-bottom: 10px;
-        margin-top: 0;
-        }
-
-        #topYesterdayContainer ul {
-        display: flex;
-        list-style: none;
-        padding: 0;
-        margin: 10px 0 0 0;
-        }
-
-        #topYesterdayContainer ul li {
-        flex: 0 0 auto;
-        background-color: #f4f4f4;
-        margin-right: 10px;
-        padding: 10px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s ease-in-out;
-        }
-
-        #topYesterdayContainer ul li:hover {
-        background-color: #e6e6e6;
+        #history ul li:hover, #topHistoryContainer ul li:hover, #topYesterdayContainer ul li:hover {
+        background: linear-gradient(145deg, #e6e6e6, #f0f0f0);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         /* 图表容器样式 */
@@ -160,12 +130,17 @@
         justify-content: center;
         align-items: center;
         background-color: #ffffff;
-        padding: 15px;
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 25px;
         width: 50%;
         height: 400px;
+        transition: all 0.3s ease;
+        }
+
+        #chartContainer:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
         /* 修改canvas样式 */
@@ -176,18 +151,16 @@
 
         p {
         white-space: pre-wrap;
+        line-height: 1.8;
         }
 
         /* 响应式设计 */
         @media (max-width: 768px) {
         .input-group {
             flex-direction: column;
-            border-bottom: none;
         }
 
-        .input-group label,
-        .input-group input[type="text"],
-        .input-group button {
+        .input-group input[type="text"], .input-group button {
             width: 100%;
             margin-bottom: 10px;
         }
