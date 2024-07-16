@@ -9,188 +9,192 @@
     <style>
         /* 全局样式 */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
+        font-family: 'Roboto', Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 0;
         }
 
         /* 容器样式 */
         .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #ffffff; /* 更明亮背景色 */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 添加轻微阴影 */
-            border-radius: 8px; /* 添加圆角 */
+        width: 90%;
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
         }
 
         /* 输入组样式 */
         .input-group {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            border-bottom: 2px solid #e6e6e6; /* 添加底部边框以区分 */
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid #e6e6e6;
         }
 
         /* 信息容器样式 */
         #infoContainer {
-            background-color: #f9f9f9; /* 微调背景颜色 */
-            padding: 5px;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 添加更浅的阴影 */
-            margin-top: 0; /* 明确设置 margin-top 为 0 */
+        background-color: #f9f9f9;
+        padding: 5px;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-top: 0;
         }
 
         /* 历史记录样式 */
         #history {
-            background-color: #ffffff; /* 明亮背景色 */
-            padding: 15px;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 添加阴影 */
-            margin-bottom: 20px; /* 添加底部间距 */
-            overflow-x: auto; /* 如果历史记录过多，允许横向滚动 */
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        overflow-x: auto;
         }
 
         #history h3 {
-            border-bottom: 2px solid #e6e6e6; /* 添加标题底部边框 */
-            padding-bottom: 10px;
-            margin-top: 0; /* 明确设置 margin-top 为 0 */
+        border-bottom: 2px solid #e6e6e6;
+        padding-bottom: 10px;
+        margin-top: 0;
         }
 
         #history ul {
-            display: flex; /* 使用flex布局使列表横向展示 */
-            list-style: none; /* 移除默认的列表样式 */
-            padding: 0; /* 移除默认的内边距 */
-            margin: 10px 0 0 0; /* 添加上边距 */
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 0 0;
         }
 
         #history ul li {
-            flex: 0 0 auto; /* 防止列表项伸缩 */
-            background-color: #f4f4f4; /* 微调列表项背景颜色 */
-            margin-right: 10px; /* 添加右外边距 */
-            padding: 10px; /* 添加内边距 */
-            border-radius: 4px; /* 添加圆角 */
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out; /* 平滑过渡背景色 */
+        flex: 0 0 auto;
+        background-color: #f4f4f4;
+        margin-right: 10px;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
         }
 
         #history ul li:hover {
-            background-color: #e6e6e6; /* 鼠标悬停时改变背景色 */
+        background-color: #e6e6e6;
         }
+
         /* top历史记录样式 */
         #topHistoryContainer {
-            background-color: #ffffff; /* 明亮背景色 */
-            padding: 15px;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 添加阴影 */
-            margin-bottom: 20px; /* 添加底部间距 */
-            overflow-x: auto; /* 如果历史记录过多，允许横向滚动 */
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        overflow-x: auto;
         }
 
         #topHistoryContainer h3 {
-            border-bottom: 2px solid #e6e6e6; /* 添加标题底部边框 */
-            padding-bottom: 10px;
-            margin-top: 0; /* 明确设置 margin-top 为 0 */
+        border-bottom: 2px solid #e6e6e6;
+        padding-bottom: 10px;
+        margin-top: 0;
         }
 
         #topHistoryContainer ul {
-            display: flex; /* 使用flex布局使列表横向展示 */
-            list-style: none; /* 移除默认的列表样式 */
-            padding: 0; /* 移除默认的内边距 */
-            margin: 10px 0 0 0; /* 添加上边距 */
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 0 0;
         }
 
         #topHistoryContainer ul li {
-            flex: 0 0 auto; /* 防止列表项伸缩 */
-            background-color: #f4f4f4; /* 微调列表项背景颜色 */
-            margin-right: 10px; /* 添加右外边距 */
-            padding: 10px; /* 添加内边距 */
-            border-radius: 4px; /* 添加圆角 */
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out; /* 平滑过渡背景色 */
+        flex: 0 0 auto;
+        background-color: #f4f4f4;
+        margin-right: 10px;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
         }
 
         #topHistoryContainer ul li:hover {
-            background-color: #e6e6e6; /* 鼠标悬停时改变背景色 */
+        background-color: #e6e6e6;
         }
+
         /* top昨日记录样式 */
         #topYesterdayContainer {
-            background-color: #ffffff; /* 明亮背景色 */
-            padding: 15px;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 添加阴影 */
-            margin-bottom: 20px; /* 添加底部间距 */
-            overflow-x: auto; /* 如果历史记录过多，允许横向滚动 */
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        overflow-x: auto;
         }
 
         #topYesterdayContainer h3 {
-            border-bottom: 2px solid #e6e6e6; /* 添加标题底部边框 */
-            padding-bottom: 10px;
-            margin-top: 0; /* 明确设置 margin-top 为 0 */
+        border-bottom: 2px solid #e6e6e6;
+        padding-bottom: 10px;
+        margin-top: 0;
         }
 
         #topYesterdayContainer ul {
-            display: flex; /* 使用flex布局使列表横向展示 */
-            list-style: none; /* 移除默认的列表样式 */
-            padding: 0; /* 移除默认的内边距 */
-            margin: 10px 0 0 0; /* 添加上边距 */
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 0 0;
         }
 
         #topYesterdayContainer ul li {
-            flex: 0 0 auto; /* 防止列表项伸缩 */
-            background-color: #f4f4f4; /* 微调列表项背景颜色 */
-            margin-right: 10px; /* 添加右外边距 */
-            padding: 10px; /* 添加内边距 */
-            border-radius: 4px; /* 添加圆角 */
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out; /* 平滑过渡背景色 */
+        flex: 0 0 auto;
+        background-color: #f4f4f4;
+        margin-right: 10px;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
         }
 
         #topYesterdayContainer ul li:hover {
-            background-color: #e6e6e6; /* 鼠标悬停时改变背景色 */
+        background-color: #e6e6e6;
         }
+
         /* 图表容器样式 */
         #chartContainer {
-            display: flex; /* 将容器设置为flex布局 */
-            justify-content: center; /* 水平居中 */
-            align-items: center; /* 垂直居中 */
-            background-color: #ffffff; /* 明亮背景色 */
-            padding: 15px;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 添加阴影 */
-            margin-bottom: 20px; /* 添加底部间距 */
-            width: 50%; /* 容器宽度设置为100% */
-            height: 400px; /* 指定一个高度，确保图表有足够的空间显示 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        width: 50%;
+        height: 400px;
         }
 
-        /* 修改canvas样式，如果需要 */
+        /* 修改canvas样式 */
         #chartContainer canvas {
-            width: 100% !important; /* 强制canvas占满容器宽度 */
-            height: auto !important; /* 高度自适应 */
+        width: 100% !important;
+        height: auto !important;
         }
+
         p {
-            white-space: pre-wrap; /* 保留换行符，并允许文本自动换行 */
-            /* 或者 white-space: pre; 保留所有的空白字符和换行符，文本不会自动换行 */
+        white-space: pre-wrap;
         }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
-            .input-group {
-                flex-direction: column;
-                border-bottom: none; /* 移除边框，因为已经改为垂直布局 */
-            }
+        .input-group {
+            flex-direction: column;
+            border-bottom: none;
+        }
 
-            .input-group label,
-            .input-group input[type="text"],
-            .input-group button {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-            #chartContainer {
-                width: 100%; /* 在小屏幕上宽度恢复为100% */
-            }
+        .input-group label,
+        .input-group input[type="text"],
+        .input-group button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #chartContainer {
+            width: 100%;
+        }
         }
     </style>
 </head>
